@@ -2,9 +2,7 @@
 
 {
 	environment.systemPackages = with pkgs; [
-		ethtool
 		nvme-cli
-		
 		micro
 		vim
 		fish

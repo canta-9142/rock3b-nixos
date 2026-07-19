@@ -2,6 +2,9 @@
 
 {
 	users.users = {
+		root = {
+			shell = pkgs.fish;
+		};
 		nixos = {
 			isNormalUser = true;
 		};
