@@ -7,6 +7,8 @@ let
 	'';
 in
 {
+	services.fstrim.enable = true;
+	
 	boot.initrd.availableKernelModules = [
 		"nvme"
 	];

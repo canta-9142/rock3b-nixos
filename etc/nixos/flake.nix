@@ -15,7 +15,7 @@
 			system = "aarch64-linux";
 		in
 		{
-			nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+			nixosConfigurations.rock3b-nixos = nixpkgs.lib.nixosSystem {
 				inherit system;
 				specialArgs = {
 					inherit nixpkgs-stable;

@@ -3,7 +3,7 @@
 {
 	environment.systemPackages = with pkgs; [
 		ethtool
-		nvme
+		nvme-cli
 		
 		micro
 		vim
