@@ -2,6 +2,9 @@
 
 {
 	environment.systemPackages = with pkgs; [
+		ethtool
+		nvme
+		
 		micro
 		vim
 		fish

@@ -68,4 +68,32 @@ in
 			}
 		];
 	};
+
+	systemd.services.rock3b-ethernet-leds = {
+		description = "Configure ROCK 3B RTL8211F Ethernet LEDs";
+		wantedBy = [ "multi-user.target" ];
+		after = [ "network.target" ];
+		serviceConfig = {
+			Type = "oneshot";
+			RemainAfterExit = true;
+		};
+		script = ''
+			set -eu
+			PHYTOOL="${pkgs.phytool}/bin/phytool"
+			configure_leds() {
+				iface="$1"
+				"$PHYTOOL" write "$iface/1/31"                    # RTL8211F LED register page
+				if ! "$PHYTOOL" write "$iface/1/16" 0x617f; then  # Green: link, Yellow: activity
+				  "$PHYTOOL" write "$iface/1/31" 0x0000 || true
+				  return 1
+				fi
+				"$PHYTOOL" write "$iface/1/31" 0x0000             # Always restore the default register page
+			}
+			for iface in end0 end1; do
+			  if [ -e "/sys/class/net/$iface/phydev" ]; then
+			    configure_leds "$iface"
+			  fi
+			done
+		'';
+	};
 }
