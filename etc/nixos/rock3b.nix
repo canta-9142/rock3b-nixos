@@ -7,6 +7,8 @@ let
 	'';
 in
 {
+	boot.kernelPackages = pkgs.linuxPackages_latest;
+	
 	services.fstrim.enable = true;
 	
 	boot.initrd.availableKernelModules = [
@@ -73,26 +75,50 @@ in
 
 	systemd.services.rock3b-ethernet-leds = {
 		description = "Configure ROCK 3B RTL8211F Ethernet LEDs";
+		
 		wantedBy = [ "multi-user.target" ];
-		after = [ "network.target" ];
+		wants = [ "network-online.target" ];
+		
+		after = [ 
+			"network-online.target"
+			"sys-subsystem-net-devices-end0.device"
+			"sys-subsystem-net-devices-end1.device"
+		];
+		
 		serviceConfig = {
 			Type = "oneshot";
 			RemainAfterExit = true;
 		};
+		
 		script = ''
 			set -eu
+			
 			PHYTOOL="${pkgs.phytool}/bin/phytool"
+			SLEEP="${pkgs.coreutils}/bin/sleep"
+			
 			configure_leds() {
 				iface="$1"
-				"$PHYTOOL" write "$iface/1/31" 0x0d04             # RTL8211F LED register page
-				if ! "$PHYTOOL" write "$iface/1/16" 0x617f; then  # Green: link, Yellow: activity
-				  "$PHYTOOL" write "$iface/1/31" 0x0000 || true
-				  return 1
-				fi
-				value=$("$PHYTOOL" read "$iface/1/16")
-				echo "$iface LED register: $value"
-				"$PHYTOOL" write "$iface/1/31" 0x0000             # Always restore the default register page
+				attempt=1
+
+				while [ "$attempt" -le 30 ]; do
+					echo "configuring RTL8211F LEDs on $iface ($attempt/30)"
+
+					if "$PHYTOOL" write "$iface/1/31" 0x0d04 &&
+					   "$PHYTOOL" write "$iface/1/16" 0x617f &&
+					   "$PHYTOOL" write "$iface/1/31" 0x0000; then
+						echo "configured RTL8211F LEDs on $iface"
+						return 0
+					fi
+
+					"$PHYTOOL" write "$iface/1/31" 0x0000 || true
+					"$SLEEP" 1
+					attempt=$((attempt + 1))
+				done
+
+				echo "Failed to configure LEDs on $iface >&2"
+				return 1       
 			}
+			
 			configure_leds end0
 			configure_leds end1
 		'';
