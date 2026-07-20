@@ -17,6 +17,8 @@
       ./modules/users.nix
       
       ./desktop/plasma.nix
+
+      ./server
     ];
 
   nix.settings.experimental-features = [
