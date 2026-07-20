@@ -1,7 +1,7 @@
 { homelab, pkgs, ... }:
 
 let
-	bootstrapSite = pkgs.writeTextDir = "index.html" ''
+	bootstrapSite = pkgs.writeTextDir "index.html" ''
 		<!doctype html>
 		<html lang="ja">
 			<head>
@@ -38,6 +38,11 @@ in
 		recommendedProxySettings = true;
 		recommendedTlsSettings = true;
 
+		appendHttpConfig = ''
+			proxy_headers_hash_max_size 1024;
+			proxy_headers_hash_bucket_size 128;
+		'';
+
 		virtualHosts = {
 			"${homelab.siteDomain}" = {
 				listen = [
@@ -48,8 +53,6 @@ in
 				];
 
 				root = "${homelab.siteRoot}/current";
-
-				locations."/".tryFiles = "$uri $uri =404";
 			};
 
 			"${homelab.gitDomain}" = {
