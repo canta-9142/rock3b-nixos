@@ -1,11 +1,14 @@
-{ ... }:
+{ pkgs, ... }:
 
 let
 	tunnelId = "1580b2a0-ac81-404d-a5cd-34231f5b50e2";
-	credentialsSource = "/home/jinji/.cloudflared/${tunnelId}.json";
 	credentialsFile = "/var/lib/cloudflared/${tunnelId}.json";
 in
 {
+	environment.systemPackages = [
+		pkgs.cloudflared
+	];
+	
 	services.cloudflared = {
 		enable = true;
 
@@ -20,11 +23,6 @@ in
 			default = "http_status:404";
 		};
 	};
-
-	systemd.tmpfiles.rules = [
-		"d /var/lib/cloudflared 0750 cloudflared cloudflared -"
-		"C ${credentialsFile} 0400 cloudflared cloudflared - ${credentialsSource}"
-	];
 
 	systemd.services."cloudflared-tunnel-${tunnelId}" = {
 		after = [
