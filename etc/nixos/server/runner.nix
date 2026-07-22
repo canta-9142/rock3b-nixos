@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ homelab, pkgs, ... }:
 
 {
 	virtualisation.podman.enable = true;
@@ -6,11 +6,11 @@
 	services.gitea-actions-runner = {
 		package = pkgs.forgejo-runner;
 
-		instances.floating-gate = {
+		instances.floatinggate = {
 			enable = true;
 
 			name = "rock3b-floating-gate";
-			url = "https://git.floating-gate.com";
+			url = "http://127.0.0.1:3000";
 			tokenFile = "/etc/forgejo-runner/token.env";
 
 			labels = [

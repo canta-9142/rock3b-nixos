@@ -16,7 +16,10 @@
 		yazi
 		btop
 		htop
+		ripgrep
 		zellij
+
+		dnsutils
 
 		alacritty
 	];

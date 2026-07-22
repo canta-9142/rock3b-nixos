@@ -17,7 +17,16 @@
 				HTTP_ADDR = "127.0.0.1";
 				HTTP_PORT = 3000;
 
-				DISABLE_SSH = true;
+				DISABLE_SSH = false;
+				START_SSH_SERVER = true;
+
+				BUILTIN_SSH_SERVER_USER = "git";
+				SSH_DOMAIN = homelab.gitsshDomain;
+
+				SSH_PORT = 22;
+
+				SSH_LISTEN_HOST = "127.0.0.1";
+				SSH_LISTEN_PORT = 2223;
 			};
 
 			service = {

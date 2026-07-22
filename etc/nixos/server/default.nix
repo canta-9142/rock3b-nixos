@@ -11,7 +11,9 @@
 
 	_module.args.homelab = {
 		siteDomain = "floating-gate.com";
-		gitDomain = "git.floating-gate.com";
+		sshDomain = "ssh.floating-gate.com";
+		gitDomain = "forgejo.floating-gate.com";
+		gitsshDomain = "forgejossh.floating-gate.com";
 		siteRoot = "/srv/www/floating-gate";
 	};
 }

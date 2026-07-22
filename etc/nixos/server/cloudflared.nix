@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ homelab, pkgs, ... }:
 
 let
 	tunnelId = "1580b2a0-ac81-404d-a5cd-34231f5b50e2";
@@ -16,8 +16,10 @@ in
 			inherit credentialsFile;
 
 			ingress = {
-				"floating-gate.com"     = "http://127.0.0.1:8080";
-				"git.floating-gate.com" = "http://127.0.0.1:8081";
+				           "floating-gate.com" = "http://127.0.0.1:8080";
+				       "ssh.floating-gate.com" =  "ssh://127.0.0.1:2222";
+				   "forgejo.floating-gate.com" = "http://127.0.0.1:8081";
+				"forgejossh.floating-gate.com" =  "ssh://127.0.0.1:2223";
 			};
 
 			default = "http_status:404";
