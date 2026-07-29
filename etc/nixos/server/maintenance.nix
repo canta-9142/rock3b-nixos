@@ -10,6 +10,6 @@
 	services.journald.extraConfig = ''
 		SystemMaxUse=512M
 		RuntimeMaxUse=128M
-		MaxRetensionSec=14day
+		MaxRetentionSec=14day
 	'';
 }
