@@ -17,7 +17,7 @@ in
 
 			ingress = {
 				           "floating-gate.com" = "http://127.0.0.1:8080";
-				       "ssh.floating-gate.com" =  "ssh://127.0.0.1:2222";
+				       "ssh.floating-gate.com" =  "ssh://127.0.0.1:22";
 				   "forgejo.floating-gate.com" = "http://127.0.0.1:8081";
 				"forgejossh.floating-gate.com" =  "ssh://127.0.0.1:2223";
 			};
