@@ -19,9 +19,8 @@
 		ripgrep
 		zellij
 
+		nh
 		dnsutils
-
-		alacritty
 	];
 
 	programs.fish.enable = true;
