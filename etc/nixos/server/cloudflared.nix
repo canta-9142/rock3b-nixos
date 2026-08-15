@@ -27,6 +27,8 @@ in
 	};
 
 	systemd.services."cloudflared-tunnel-${tunnelId}" = {
+		startLimitIntervalSec = 0;
+
 		after = [
 			"network-online.target"
 			"nginx.service"
@@ -36,5 +38,7 @@ in
 		wants = [
 			"network-online.target"
 		];
+
+		serviceConfig.RestartSec = "10s";
 	};
 }
