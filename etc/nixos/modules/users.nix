@@ -24,11 +24,7 @@
 			users = [ "jinji" ];
 			commands = [
 				{
-					command = "/run/current-system/sw/bin/git";
-					options = [ "NOPASSWD" ];
-				}
-				{
-					command = "/run/current-system/sw/bin/gh";
+					command = "/run/current-system/sw/bin/nixos-rebuild";
 					options = [ "NOPASSWD" ];
 				}
 			];
