@@ -13,6 +13,8 @@
 	                  ... }:
 		let
 			system = "aarch64-linux";
+			devSystems = [ "aarch64-linux" "x86_64-linux" ];
+			forEachDevSystem = nixpkgs.lib.genAttrs devSystems;
 		in
 		{
 			nixosConfigurations.rock3b-nixos = nixpkgs.lib.nixosSystem {
@@ -36,5 +38,21 @@
 					})
 				];
 			};
+
+			devShells = forEachDevSystem (devSystem:
+				let
+					pkgs = nixpkgs.legacyPackages.${devSystem};
+				in
+				{
+					default = pkgs.mkShell {
+						packages = with pkgs; [
+							deadnix
+							git
+							nil
+							nixfmt
+							statix
+						];
+					};
+				});
 		};
 }
