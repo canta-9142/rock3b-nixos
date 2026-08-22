@@ -24,6 +24,10 @@
 
   networking.hostName = "rock3b-nixos";
 
+  systemd.tmpfiles.rules = [
+    "L+ /etc/nixos - jinji users - /home/jinji/rock3b-nixos"
+  ];
+
   system.stateVersion = "26.05";
 
 }
